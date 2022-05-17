@@ -1,0 +1,47 @@
+---
+title: "Iphone Viz"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+iphone_viz <- read.csv("Cleaned_iphonesdata.csv")
+library(ggplot2)
+
+```
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Price of iphones Categorized by Storage
+
+```{r fig1, fig.width = 20,fig.height= 14}
+ggplot() +
+  stat_identity(data = iphone_viz, aes(y = Color ,x =  Price,fill = factor(Int_Storage_GB)), geom = "bar")+ facet_grid(~Name)
+
+
+```
+
+
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Count of Mobiles Categorized by Storage
+
+```{r fig2, fig.width = 8}
+ggplot(iphone_viz,aes(y = Name,fill = Int_Storage_GB)) + geom_bar()+facet_wrap(~Int_Storage_GB)
+```
+
+
+### Iphones Rating
+
+```{r fig3, fig.width = 8}
+ggplot(iphone_viz,aes(x = Rating,y = Name))+geom_point(size = 3,col = "purple")+ 
+  scale_x_continuous(breaks = seq(0, 5, by = 0.1))+geom_text(label = iphone_viz$Rating,vjust = -1)
+
+```
+
